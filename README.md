@@ -1,0 +1,1 @@
+this is a football forcasting project that uses machine learning to predict the outcomes of football matches. The project utilizes historical match data, player statistics, and team performance metrics to train predictive models. The goal is to provide accurate forecasts for upcoming games, helping fans and analysts make informed decisions.
