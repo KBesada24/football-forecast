@@ -1,0 +1,14 @@
+#envs
+venv/
+.venv/
+
+#files
+*.pyc
+.env
+.env*
+
+# IDEs
+.vscode/
+
+# OS
+.DS_Store
