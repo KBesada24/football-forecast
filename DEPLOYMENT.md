@@ -936,13 +936,13 @@ Record each check's environment, commit/deployment, date, result, and any screen
 
 ### Infrastructure and configuration
 
-- [ ] Both Vercel projects are on the intended free plan and use the correct roots.
-- [ ] Production backend does not attempt to connect to localhost.
-- [ ] No secrets appear in built browser JavaScript, source maps available to users, or error responses.
-- [ ] The API starts without writable source directories or local raw/model files.
+- [x] Both Vercel projects are on the intended free plan and use the correct roots (Hobby; roots `backend` and `football-forecast-ui`; September 27).
+- [x] Production backend does not attempt to connect to localhost (readiness reports Supabase connected).
+- [x] No secrets appear in built browser JavaScript, source maps available to users, or error responses (September 27: 8 served JS chunks plus HTML scanned; no DB passwords, pooler host, `api_reader`, or backend URL; `.map` requests return 403; errors are generic).
+- [x] The API starts without writable source directories or local raw/model files (runs on Vercel's read-only filesystem).
 - [ ] **Deferred:** backend service auth rejects absent and incorrect credentials.
-- [ ] Frontend-to-backend access works with any enabled platform deployment protection.
-- [ ] API database role cannot insert/update/delete application records.
+- [x] Frontend-to-backend access works with any enabled platform deployment protection (production domains, default protection).
+- [x] API database role cannot insert/update/delete application records (INSERT/DELETE/CREATE rejected for `api_reader`).
 - [ ] Normal worker writes obey snapshot guards; the privileged owner role could alter/drop protections and must not be described as technically incapable of doing so.
 - [ ] Readiness failure produces a controlled unavailable response.
 - [ ] Cold-start requests recover with useful loading/retry behavior.
@@ -951,7 +951,7 @@ Record each check's environment, commit/deployment, date, result, and any screen
 
 ### Player explorer and Best matchups
 
-- [ ] Search returns real players from the intended dataset.
+- [x] Search returns real players from the intended dataset.
 - [ ] Selecting a player displays the correct team/opponent for the selected week.
 - [ ] Recent averages and historical actuals remain distinguishable from projections.
 - [ ] Missing roster/stat information is not mistaken for an undecided schedule without checking the existing fallback.
@@ -1250,10 +1250,10 @@ No fallback should be enacted as an unannounced purchase or material architectur
 - [x] `age` installed locally and the real encryption round-trip test passes (September 27).
 - [x] CodeRabbit CLI review completed and its findings resolved (September 27).
 - [ ] Opt-in workflow passes a cloud run; encrypted archives download/verify ✔ (run 36350171349); site shows exact snapshot (pending the first Tuesday publication).
-- [ ] Owner identity retained independently (**second copy still pending**; only `~/football-backup.agekey` exists). One cloud backup decrypted and restored successfully ✔ (September 27).
+- [x] Owner identity retained independently: second copy made by the owner, September 27. One cloud backup decrypted and restored successfully (September 27).
 - [x] Tuesday workflow explicitly enabled by the owner (`ENABLE_WEEKLY_REFRESH=true`, September 27); first scheduled run Tuesday, September 29, 8:00 a.m. Eastern. Failure notifications still to be confirmed.
 - [ ] Participation/injury notice still visible.
-- [ ] Real phone/cellular check passed with local development services unavailable.
+- [x] Real phone/cellular check passed (owner, September 27).
 - [ ] Owner received the stable URL and understands browser-local team storage.
 - [ ] Deployment record below and `HANDOFF.md` updated.
 
@@ -1301,6 +1301,6 @@ Adopt individually when justified; none of these blocks the minimal launch.
 
 The app is live (September 27): database, API, and website are deployed and verified. The Supabase database has SSL enforcement on, the Data API off, a read-only `api_reader` (pre-hashed SCRAM password), and Supabase API-role grants revoked. GitHub has `REFRESH_DATABASE_URL` (secret) and `BACKUP_AGE_RECIPIENT` (variable); `ENABLE_WEEKLY_REFRESH` is unset. Database passwords live in `~/.config/football-forecast/supabase.env` (mode 600, outside the repo) until the owner moves them to a password manager.
 
-Remaining owner steps: keep a second copy of `~/football-backup.agekey` off this machine, confirm Supabase billing is Free, run a phone/cellular check, then set `ENABLE_WEEKLY_REFRESH=true`. The owner-key recovery check passed September 27. **Timing risk:** nflverse publishes player stats with a lag. If Monday-night stats are not out by Tuesday 8 a.m. Eastern, the coverage gate blocks that run safely (failure email, nothing published); rerun manually later Tuesday with `gh workflow run weekly-refresh.yml -f season=2026`. Move the cron later if this recurs.
+Remaining owner steps: confirm Supabase billing is Free, and that GitHub failed-workflow emails are on. The owner-key recovery check, second key copy, and phone check passed September 27. **Timing risk:** nflverse publishes player stats with a lag. If Monday-night stats are not out by Tuesday 8 a.m. Eastern, the coverage gate blocks that run safely (failure email, nothing published); rerun manually later Tuesday with `gh workflow run weekly-refresh.yml -f season=2026`. Move the cron later if this recurs.
 
 Maintain this document as the operational source of truth: change “planned” to “implemented” only when the code/configuration exists, and change “verified” only after the corresponding check has actually run.
