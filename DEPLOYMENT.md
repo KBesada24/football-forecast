@@ -1250,7 +1250,7 @@ No fallback should be enacted as an unannounced purchase or material architectur
 - [x] `age` installed locally and the real encryption round-trip test passes (September 27).
 - [x] CodeRabbit CLI review completed and its findings resolved (September 27).
 - [ ] Opt-in workflow passes a cloud run; encrypted archives download/verify ✔ (run 36350171349); site shows exact snapshot (pending the first Tuesday publication).
-- [ ] Owner identity retained independently; one cloud backup decrypted/restored successfully.
+- [ ] Owner identity retained independently (**second copy still pending**; only `~/football-backup.agekey` exists). One cloud backup decrypted and restored successfully ✔ (September 27).
 - [ ] Tuesday workflow explicitly enabled; failure notifications confirmed.
 - [ ] Participation/injury notice still visible.
 - [ ] Real phone/cellular check passed with local development services unavailable.
@@ -1292,8 +1292,8 @@ Adopt individually when justified; none of these blocks the minimal launch.
 | Latest lineup snapshot / target season-week | Record at deployment |
 | Refresh workflow URL / last successful run | Two manual runs on September 27, a Sunday mid-Week 3. Run 36349966327 exposed a real backup bug: libpq ignores a URI in `PGDATABASE`, fixed in `5d9e440`. Run 36350171349: preflight ✔, backup ✔, upload ✔, download and checksum ✔. Ingestion was correctly blocked by the completed-game coverage gate: nflverse had Sunday final scores but only Thursday's player stats. No publication yet; the first real one is a Tuesday run |
 | Archive destination and verified retention | Encrypted GitHub artifacts selected; rolling 90 days configured, cloud unverified |
-| Last encrypted backup / independent copy | Artifact `football-refresh-36350171349-1` (1.5 MB, expires December 26, 2026); owner decryption not yet performed |
-| Last restore drill / measured recovery time | Cloud: not performed. Local PG17 rehearsals passed September 24 and 27 (see Section 3) |
+| Last encrypted backup / independent copy | Artifact `football-refresh-36350171349-1` (1.5 MB, expires December 26, 2026); decrypted successfully with the owner identity |
+| Last restore drill / measured recovery time | **Cloud owner-key recovery check passed September 27.** Artifact downloaded, ciphertext checksum verified, decrypted with `~/football-backup.agekey`, and restored (exit 0) into an empty scratch database. All 18 table counts, revision `202609220002`, 4 triggers, and content hashes of 10 tables were identical to live Supabase; the append-only guard held. Compare hashes with `COLLATE "C"`, because musl and glibc `en_US` sort differently. Recovery took a few minutes end to end. Scratch DB and plaintext removed |
 | Spending controls verified on | Not verified in cloud accounts |
 | Remaining limitations accepted by owner | Record before launch |
 
@@ -1301,6 +1301,6 @@ Adopt individually when justified; none of these blocks the minimal launch.
 
 The app is live (September 27): database, API, and website are deployed and verified. The Supabase database has SSL enforcement on, the Data API off, a read-only `api_reader` (pre-hashed SCRAM password), and Supabase API-role grants revoked. GitHub has `REFRESH_DATABASE_URL` (secret) and `BACKUP_AGE_RECIPIENT` (variable); `ENABLE_WEEKLY_REFRESH` is unset. Database passwords live in `~/.config/football-forecast/supabase.env` (mode 600, outside the repo) until the owner moves them to a password manager.
 
-Remaining owner steps: decrypt the run 36350171349 backup with the private age identity (recovery check), confirm Supabase billing is Free, run a phone/cellular check, then set `ENABLE_WEEKLY_REFRESH=true`. **Timing risk:** nflverse publishes player stats with a lag. If Monday-night stats are not out by Tuesday 8 a.m. Eastern, the coverage gate blocks that run safely (failure email, nothing published); rerun manually later Tuesday with `gh workflow run weekly-refresh.yml -f season=2026`. Move the cron later if this recurs. Cloud, owner-key recovery, and mobile checks must pass before launch. Pull in deferred hardening items only when a real need appears.
+Remaining owner steps: keep a second copy of `~/football-backup.agekey` off this machine, confirm Supabase billing is Free, run a phone/cellular check, then set `ENABLE_WEEKLY_REFRESH=true`. The owner-key recovery check passed September 27. **Timing risk:** nflverse publishes player stats with a lag. If Monday-night stats are not out by Tuesday 8 a.m. Eastern, the coverage gate blocks that run safely (failure email, nothing published); rerun manually later Tuesday with `gh workflow run weekly-refresh.yml -f season=2026`. Move the cron later if this recurs.
 
 Maintain this document as the operational source of truth: change “planned” to “implemented” only when the code/configuration exists, and change “verified” only after the corresponding check has actually run.
