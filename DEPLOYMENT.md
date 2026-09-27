@@ -1235,21 +1235,21 @@ No fallback should be enacted as an unannounced purchase or material architectur
 
 - [ ] User approved the actual deployment, not just this document.
 - [ ] Personal/noncommercial scope and account eligibility confirmed.
-- [ ] New files reviewed for public visibility (public repository), required files committed, secrets excluded.
+- [x] New files reviewed for public visibility and committed (`875ca17`, September 27): a secret scan was clean; an IP-bearing ngrok URL was removed from `HANDOFF.md`; `output/` screenshots are ignored.
 - [ ] All selected services remain on intended free plans without paid trial dependence or a payment method.
 - [x] Locally implemented: no API mkdir, explicit entrypoint, extras, Python pin; cloud packaging remains unverified.
 - [x] Locally implemented/tested: missing production BACKEND_URL refuses localhost fallback.
 - [x] Local database dumped and restored into Supabase (September 27); all 18 table counts, revision `202609220002`, 4 triggers, and snapshot/batch content hashes match; `alembic check` reports no drift.
 - [x] API uses `api_reader` through the transaction pooler (tested locally against the cloud DB, September 27): health, readiness, search, and rankings return 200; INSERT/DELETE/CREATE are rejected; `anon`/`authenticated`/`service_role` have no table privileges; Data API disabled. Repeat from the deployed Vercel function.
-- [ ] Backend deployed on Vercel; health, readiness, player search, and lineup optimization work.
-- [ ] Frontend deployed with the production `BACKEND_URL`; all three areas work.
-- [ ] Supabase CA certificate committed as `backend/certs/supabase-ca.crt` (file added, not yet committed); SSL enforcement on ✔; `verify-full` connections verified from the owner machine ✔; a wrong CA is rejected ✔.
-- [ ] Model copy/checksum exist locally; review and commit before deployment.
+- [x] Backend deployed on Vercel (`football-forecast-api`): health, readiness (DB connected via `verify-full`), search, rankings, and lineup week return 200 in about 0.2 s; an oversized POST returns 413.
+- [x] Frontend deployed (`football-forecast`) with production `BACKEND_URL`. Player explorer, Best matchups (Week 2: 100 WR results), and My team (correct started-week lock) work in a desktop browser. The proxy returns 404 for non-allowlisted paths and 413 for oversize bodies.
+- [x] Supabase CA certificate committed as `backend/certs/supabase-ca.crt`; SSL enforcement on; `verify-full` works from the owner machine, the Vercel function, and the GitHub runner; a wrong CA is rejected.
+- [x] Model copy and checksum committed.
 - [x] Explicit season, intended-week/coverage gates, direct backend body limit implemented locally.
 - [x] Local PG17 dump → empty-database restore rehearsal passed; counts, revision, triggers, and snapshot identity matched (full dump September 24; Supabase-style public-schema dump September 27).
 - [x] `age` installed locally and the real encryption round-trip test passes (September 27).
 - [x] CodeRabbit CLI review completed and its findings resolved (September 27).
-- [ ] Opt-in workflow passes a cloud run; encrypted archives download/verify; site shows exact snapshot.
+- [ ] Opt-in workflow passes a cloud run; encrypted archives download/verify ✔ (run 36350171349); site shows exact snapshot (pending the first Tuesday publication).
 - [ ] Owner identity retained independently; one cloud backup decrypted/restored successfully.
 - [ ] Tuesday workflow explicitly enabled; failure notifications confirmed.
 - [ ] Participation/injury notice still visible.
@@ -1277,28 +1277,30 @@ Adopt individually when justified; none of these blocks the minimal launch.
 
 | Field | Value |
 | --- | --- |
-| Deployment status | Database provisioned and restored (September 27). Vercel projects not created; application not deployed |
+| Deployment status | **Deployed September 27, 2026** (database, API, website). Weekly workflow disabled pending the owner-key recovery check |
 | Owner / alert recipient | To be confirmed; no credentials here |
-| Frontend project and public URL | Not provisioned |
-| Frontend deployment ID / commit | Not deployed |
-| Backend project and stable URL | Not provisioned |
-| Backend deployment ID / commit | Not deployed |
-| Vercel plan and region | To be verified |
+| Frontend project and public URL | `football-forecast` (`prj_auSkLUoNY0kQkRoPsXzaQyRYGxX6`), root `football-forecast-ui`: <https://football-forecast-xi.vercel.app> |
+| Frontend deployment ID / commit | `dpl_7581M8LfP7TgE95Uvwia2rfbHYWu` / `875ca17`; Git integration deploys `main` |
+| Backend project and stable URL | `football-forecast-api` (`prj_CVQRmgavQ5cFdkIlWBzKfwQ89a7w`), root `backend`: <https://football-forecast-api.vercel.app> |
+| Backend deployment ID / commit | `dpl_HhLXGavE6R1dXRnSdnEU59ReUEFs` / `875ca17`; Git integration deploys `main` |
+| Vercel plan and region | Hobby (team `kirollos-besadas-projects`), default function region |
 | Supabase project ref / PostgreSQL version / region | `pinpqyoqfgxxezigfagr` (`football-forecast`, KBesada24 org) / PostgreSQL 17.6 / `us-east-1`. Session pooler `aws-0-us-east-1.pooler.supabase.com:5432`; transaction pooler port 6543 |
 | Supabase plan and observed quotas | Free (created via CLI in the owner's org). Owner to confirm in Billing that no payment method or Pro trial is attached |
 | Production schema revision | `202609220002` (head), restored from the local dump; `alembic check` clean |
 | Model version / SHA-256 | Record approved artifact at deployment |
 | Latest verified source-data timestamp | Record at deployment |
 | Latest lineup snapshot / target season-week | Record at deployment |
-| Refresh workflow URL / last successful run | Workflow exists locally, opt-in disabled; no verified cloud run |
+| Refresh workflow URL / last successful run | Two manual runs on September 27, a Sunday mid-Week 3. Run 36349966327 exposed a real backup bug: libpq ignores a URI in `PGDATABASE`, fixed in `5d9e440`. Run 36350171349: preflight ✔, backup ✔, upload ✔, download and checksum ✔. Ingestion was correctly blocked by the completed-game coverage gate: nflverse had Sunday final scores but only Thursday's player stats. No publication yet; the first real one is a Tuesday run |
 | Archive destination and verified retention | Encrypted GitHub artifacts selected; rolling 90 days configured, cloud unverified |
-| Last encrypted backup / independent copy | Not created by this document |
+| Last encrypted backup / independent copy | Artifact `football-refresh-36350171349-1` (1.5 MB, expires December 26, 2026); owner decryption not yet performed |
 | Last restore drill / measured recovery time | Cloud: not performed. Local PG17 rehearsals passed September 24 and 27 (see Section 3) |
 | Spending controls verified on | Not verified in cloud accounts |
 | Remaining limitations accepted by owner | Record before launch |
 
 ### Next action
 
-The Supabase database is provisioned, restored, locked down, and verified (September 27). Setup details: SSL enforcement on; Data API off; `api_reader` created with a pre-hashed SCRAM password; Supabase API-role grants revoked. GitHub has `REFRESH_DATABASE_URL` (secret) and `BACKUP_AGE_RECIPIENT` (variable). `ENABLE_WEEKLY_REFRESH` stays unset. Database passwords live only in the owner's password manager and `~/.config/football-forecast/supabase.env` (mode 600, outside the repo). Next: the owner reviews the public-visibility files, commits and pushes, then approves creating the two Vercel projects. Cloud, owner-key recovery, and mobile checks must pass before launch. Pull in deferred hardening items only when a real need appears.
+The app is live (September 27): database, API, and website are deployed and verified. The Supabase database has SSL enforcement on, the Data API off, a read-only `api_reader` (pre-hashed SCRAM password), and Supabase API-role grants revoked. GitHub has `REFRESH_DATABASE_URL` (secret) and `BACKUP_AGE_RECIPIENT` (variable); `ENABLE_WEEKLY_REFRESH` is unset. Database passwords live in `~/.config/football-forecast/supabase.env` (mode 600, outside the repo) until the owner moves them to a password manager.
+
+Remaining owner steps: decrypt the run 36350171349 backup with the private age identity (recovery check), confirm Supabase billing is Free, run a phone/cellular check, then set `ENABLE_WEEKLY_REFRESH=true`. **Timing risk:** nflverse publishes player stats with a lag. If Monday-night stats are not out by Tuesday 8 a.m. Eastern, the coverage gate blocks that run safely (failure email, nothing published); rerun manually later Tuesday with `gh workflow run weekly-refresh.yml -f season=2026`. Move the cron later if this recurs. Cloud, owner-key recovery, and mobile checks must pass before launch. Pull in deferred hardening items only when a real need appears.
 
 Maintain this document as the operational source of truth: change “planned” to “implemented” only when the code/configuration exists, and change “verified” only after the corresponding check has actually run.
