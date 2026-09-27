@@ -125,15 +125,6 @@ summary:focus-visible,
 .brand-mark i:nth-child(2) {
   height: 20px;
 }
-.beta {
-  margin-left: 14px;
-  font-size: 8px;
-  letter-spacing: 1px;
-  padding: 4px 5px;
-  border: 1px solid var(--line);
-  border-radius: 3px;
-  color: var(--muted);
-}
 .header-note {
   color: var(--muted);
   font-size: 12px;
@@ -955,9 +946,6 @@ footer p {
   .brand-mark {
     width: 26px;
     height: 26px;
-  }
-  .beta {
-    display: none;
   }
   .header-link {
     font-size: 11px;

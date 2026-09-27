@@ -74,7 +74,6 @@ export function ForecastApp({
             <i />
           </span>
           football<span className="brand-light">forecast</span>
-          <span className="beta">PREVIEW</span>
         </Link>
         <span className="header-note">A clearer view of game week.</span>
         <a className="header-link" href="#data-notes">
@@ -246,7 +245,7 @@ export function ForecastApp({
               <i />
               {context ? "Data loaded" : "Data connection unavailable"}
             </span>
-            <p>Development preview · No live injury monitoring</p>
+            <p>No live injury monitoring</p>
           </div>
         </footer>
       </main>
