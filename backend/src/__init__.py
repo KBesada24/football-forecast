@@ -1,0 +1,1 @@
+"""Football Forecast backend package."""

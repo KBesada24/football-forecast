@@ -1,0 +1,9 @@
+[Unit]
+Description=Refresh NFL inputs and prepare next-week lineup projections
+
+[Service]
+Type=oneshot
+WorkingDirectory=/home/kbesada/Code/football-forecast/backend
+ExecStart=/home/kbesada/Code/football-forecast/backend/venv/bin/python -m src.jobs.weekly_refresh
+TimeoutStartSec=30min
+UMask=0077

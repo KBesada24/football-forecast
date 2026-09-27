@@ -1,0 +1,10 @@
+[Unit]
+Description=Tuesday 8am Eastern football snapshot refresh
+
+[Timer]
+OnCalendar=Tue *-*-* 08:00:00 America/New_York
+Persistent=true
+Unit=football-forecast-refresh.service
+
+[Install]
+WantedBy=timers.target

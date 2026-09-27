@@ -1,0 +1,420 @@
+{
+  "evaluation_note": "Corrected-data chronological simulation, not archived pregame forecasts. Train: 2024. Tune: 2025 weeks 1\u20139. Untouched test: 2025 weeks 10\u201318. No 2026 outcomes used to train or select models. Pairwise regret is a start/sit proxy, not a backtest of actual fantasy rosters. Coverage excludes missing recent scoring data.",
+  "feature_version": "lineup_history5_matchup_v1",
+  "models": {
+    "DST": {
+      "center": [
+        5.620012787723785,
+        -0.040473145780051165,
+        0.028244123736451104,
+        0,
+        0,
+        0,
+        -0.09433848501139788,
+        0.008201650225307515,
+        4.59079283887468
+      ],
+      "coefficients": [
+        -0.11361892583120183,
+        -2.4075121102657198,
+        -0.15743377384195467,
+        0.15313347647300404,
+        0.0,
+        0.0,
+        0.0,
+        1.554088318781077,
+        0.10404924804917451,
+        -0.1661891882786415
+      ],
+      "kind": "ridge",
+      "penalty": 100,
+      "scale": [
+        3.4108306612582866,
+        1.3168354713046015,
+        1.5318355449716843,
+        1,
+        1,
+        1,
+        2.293549493055455,
+        0.6003090477679379,
+        1.0296460472704763
+      ]
+    },
+    "K": {
+      "center": [
+        8.416164921465969,
+        -0.05687172774869111,
+        0.029835140862627767,
+        0.0,
+        0.0,
+        0.0013089005235602095,
+        -0.01688594526048538,
+        -0.006055352987617386,
+        4.367801047120419
+      ],
+      "coefficients": [
+        -0.2878926701570681,
+        -2.518905024161827,
+        -0.10738309266280939,
+        0.17331819806358204,
+        0.0,
+        0.0,
+        -0.23396036524440056,
+        0.03719241361708419,
+        -0.04450657299574004,
+        0.026811690037812086
+      ],
+      "kind": "ridge",
+      "penalty": 10,
+      "scale": [
+        2.793702814768485,
+        1.0203166542198552,
+        1.0304164245304637,
+        1,
+        1,
+        0.016126589352106223,
+        1.173782139582224,
+        0.3688453486836529,
+        1.2266926044278843
+      ]
+    },
+    "QB": {
+      "center": [
+        14.457951536643026,
+        0.20224389282899916,
+        -0.21980772261623327,
+        0.009850275807722617,
+        3.690977147360126,
+        27.850748620961387,
+        0.03530227408670467,
+        -0.016850529100529102,
+        4.203309692671395
+      ],
+      "coefficients": [
+        0.48748581560283677,
+        -1.0637117403131575,
+        0.45829359371662715,
+        0.7002943557237274,
+        -0.1326447597923935,
+        -0.08921359112746428,
+        -0.16168188615234227,
+        -0.014075129515337558,
+        0.18026703635789296,
+        0.10899000526099811
+      ],
+      "kind": "ridge",
+      "penalty": 1000,
+      "scale": [
+        6.4613749226567085,
+        1.6164801796729262,
+        1.7779476513764747,
+        0.05798044709322384,
+        2.520694883628706,
+        9.705949642483176,
+        1.6243086327090557,
+        0.5685180406450834,
+        1.3601169523054277
+      ]
+    },
+    "RB": {
+      "center": [
+        8.926188802083333,
+        -0.01777957589285714,
+        0.03399720982142857,
+        2.1678571428571427,
+        8.699190848214286,
+        0.0020089285714285717,
+        -0.04169046329379576,
+        0.02474963461947279,
+        4.321986607142857
+      ],
+      "coefficients": [
+        -0.16910174851190446,
+        -3.6047383707777327,
+        0.46653135747442886,
+        0.3878477596886498,
+        0.9476234356938075,
+        1.8803481558663997,
+        0.051880741395663024,
+        0.363725641966894,
+        0.14001638715237882,
+        -0.15129873366552046
+      ],
+      "kind": "ridge",
+      "penalty": 10,
+      "scale": [
+        6.594976391742804,
+        1.2900054260421825,
+        1.442708304794904,
+        1.637724848681445,
+        6.194701156387608,
+        0.019943668676565312,
+        1.1351842688461915,
+        0.5713375932886886,
+        1.2776438204615121
+      ]
+    },
+    "TE": {
+      "center": [
+        7.47252900789564,
+        0.09200308959835223,
+        -0.11402996419989214,
+        4.240044627531754,
+        0.09287675935461724,
+        0.0058187435633367665,
+        0.0327750772104898,
+        6.111764994357667e-06,
+        4.351184346035016
+      ],
+      "coefficients": [
+        0.3553803638860281,
+        -0.6467845788562421,
+        0.08856431503271475,
+        0.278322065203648,
+        -0.1070146544425763,
+        0.056452708339141365,
+        -0.19936142311383706,
+        0.029692586256880326,
+        0.02269916445792251,
+        -0.025126374253923205
+      ],
+      "kind": "ridge",
+      "penalty": 1000,
+      "scale": [
+        4.486078311961868,
+        1.1565509479959304,
+        1.2946652397439293,
+        2.291951691106282,
+        0.51870979904062,
+        0.057313923148576154,
+        1.1277860701466123,
+        0.4799265287042315,
+        1.2728836914133903
+      ]
+    },
+    "WR": {
+      "kind": "mean5"
+    }
+  },
+  "report": {
+    "DST": {
+      "deployed": "ridge",
+      "holdout_baselines": {
+        "mean5": {
+          "decision_pairs": 4049,
+          "mae": 5.1788,
+          "pairwise_accuracy": 0.581,
+          "pairwise_regret": 2.8719,
+          "samples": 274
+        },
+        "weighted5": {
+          "decision_pairs": 4049,
+          "mae": 5.3092,
+          "pairwise_accuracy": 0.593,
+          "pairwise_regret": 2.8174,
+          "samples": 274
+        }
+      },
+      "holdout_challenger": {
+        "decision_pairs": 4049,
+        "mae": 4.6753,
+        "pairwise_accuracy": 0.6414,
+        "pairwise_regret": 2.3295,
+        "samples": 274
+      },
+      "promoted": true,
+      "training": 512,
+      "validation": 270,
+      "validation_challenger": {
+        "decision_pairs": 3935,
+        "mae": 5.11,
+        "pairwise_accuracy": 0.5995,
+        "pairwise_regret": 2.8074,
+        "samples": 270
+      }
+    },
+    "K": {
+      "deployed": "ridge",
+      "holdout_baselines": {
+        "mean5": {
+          "decision_pairs": 3929,
+          "mae": 4.2796,
+          "pairwise_accuracy": 0.5541,
+          "pairwise_regret": 2.4859,
+          "samples": 270
+        },
+        "weighted5": {
+          "decision_pairs": 3929,
+          "mae": 4.302,
+          "pairwise_accuracy": 0.5607,
+          "pairwise_regret": 2.4341,
+          "samples": 270
+        }
+      },
+      "holdout_challenger": {
+        "decision_pairs": 3929,
+        "mae": 3.9578,
+        "pairwise_accuracy": 0.5691,
+        "pairwise_regret": 2.3739,
+        "samples": 270
+      },
+      "promoted": true,
+      "training": 500,
+      "validation": 264,
+      "validation_challenger": {
+        "decision_pairs": 3760,
+        "mae": 3.7576,
+        "pairwise_accuracy": 0.5223,
+        "pairwise_regret": 2.7144,
+        "samples": 264
+      }
+    },
+    "QB": {
+      "deployed": "ridge",
+      "holdout_baselines": {
+        "mean5": {
+          "decision_pairs": 4939,
+          "mae": 7.1856,
+          "pairwise_accuracy": 0.6205,
+          "pairwise_regret": 3.4632,
+          "samples": 310
+        },
+        "weighted5": {
+          "decision_pairs": 4939,
+          "mae": 7.0741,
+          "pairwise_accuracy": 0.6265,
+          "pairwise_regret": 3.3489,
+          "samples": 310
+        }
+      },
+      "holdout_challenger": {
+        "decision_pairs": 4939,
+        "mae": 6.9246,
+        "pairwise_accuracy": 0.6351,
+        "pairwise_regret": 3.2213,
+        "samples": 310
+      },
+      "promoted": true,
+      "training": 550,
+      "validation": 296,
+      "validation_challenger": {
+        "decision_pairs": 4755,
+        "mae": 6.8759,
+        "pairwise_accuracy": 0.6358,
+        "pairwise_regret": 3.1463,
+        "samples": 296
+      }
+    },
+    "RB": {
+      "deployed": "ridge",
+      "holdout_baselines": {
+        "mean5": {
+          "decision_pairs": 5670,
+          "mae": 4.8596,
+          "pairwise_accuracy": 0.6392,
+          "pairwise_regret": 2.7186,
+          "samples": 660
+        },
+        "weighted5": {
+          "decision_pairs": 5670,
+          "mae": 4.9052,
+          "pairwise_accuracy": 0.6337,
+          "pairwise_regret": 2.7159,
+          "samples": 660
+        }
+      },
+      "holdout_challenger": {
+        "decision_pairs": 5670,
+        "mae": 4.7329,
+        "pairwise_accuracy": 0.6451,
+        "pairwise_regret": 2.6144,
+        "samples": 660
+      },
+      "promoted": true,
+      "training": 1156,
+      "validation": 636,
+      "validation_challenger": {
+        "decision_pairs": 5670,
+        "mae": 4.802,
+        "pairwise_accuracy": 0.6661,
+        "pairwise_regret": 2.4956,
+        "samples": 636
+      }
+    },
+    "TE": {
+      "deployed": "ridge",
+      "holdout_baselines": {
+        "mean5": {
+          "decision_pairs": 5568,
+          "mae": 4.6628,
+          "pairwise_accuracy": 0.6467,
+          "pairwise_regret": 2.0268,
+          "samples": 351
+        },
+        "weighted5": {
+          "decision_pairs": 5568,
+          "mae": 4.7528,
+          "pairwise_accuracy": 0.6469,
+          "pairwise_regret": 2.0005,
+          "samples": 351
+        }
+      },
+      "holdout_challenger": {
+        "decision_pairs": 5568,
+        "mae": 4.6157,
+        "pairwise_accuracy": 0.6509,
+        "pairwise_regret": 1.9917,
+        "samples": 351
+      },
+      "promoted": true,
+      "training": 645,
+      "validation": 326,
+      "validation_challenger": {
+        "decision_pairs": 5284,
+        "mae": 4.9962,
+        "pairwise_accuracy": 0.6495,
+        "pairwise_regret": 2.2927,
+        "samples": 326
+      }
+    },
+    "WR": {
+      "deployed": "mean5",
+      "holdout_baselines": {
+        "mean5": {
+          "decision_pairs": 5670,
+          "mae": 4.7169,
+          "pairwise_accuracy": 0.5957,
+          "pairwise_regret": 3.5023,
+          "samples": 950
+        },
+        "weighted5": {
+          "decision_pairs": 5670,
+          "mae": 4.7683,
+          "pairwise_accuracy": 0.5925,
+          "pairwise_regret": 3.5878,
+          "samples": 950
+        }
+      },
+      "holdout_challenger": {
+        "decision_pairs": 5670,
+        "mae": 4.7822,
+        "pairwise_accuracy": 0.6016,
+        "pairwise_regret": 3.4619,
+        "samples": 950
+      },
+      "promoted": false,
+      "training": 1744,
+      "validation": 937,
+      "validation_challenger": {
+        "decision_pairs": 5670,
+        "mae": 4.8408,
+        "pairwise_accuracy": 0.5989,
+        "pairwise_regret": 3.0419,
+        "samples": 937
+      }
+    }
+  },
+  "scoring_version": "espn_full_ppr_2026_v1",
+  "training_artifact": "4c224da941e648828aa4cd2015104e3e",
+  "version": "lineup_ridge_v1"
+}

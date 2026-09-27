@@ -1,36 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Football Forecast UI
 
-## Getting Started
+A responsive Next.js player explorer connected to the Python/Postgres backend.
+Warm off-white surfaces, one deep-green accent, compact sections, and lightweight
+CSS motion keep this first version easy to refine. No chart or UI framework added.
 
-First, run the development server:
+## Best matchups
+
+RB/WR/TE filters now display imported actual-result leaderboards for past/started
+weeks and prepared preliminary estimates for the next upcoming week. Published
+forecasts take precedence over preliminary estimates before the week starts.
+Each view labels its data type and timestamp; actuals report completed-game coverage,
+while preliminary rows show opponent samples and partial-coverage warnings. Player
+rows open the existing explorer. The cream/green layout is unchanged and opponent
+context remains visible on mobile.
+
+## Run locally
+
+Start Postgres and the API using `../backend/README.md`, then run here:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install --frozen-lockfile
+bun run dev --hostname 127.0.0.1 --port 3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>. The server defaults to the backend at
+`http://127.0.0.1:8000`. Override with the server-only `BACKEND_URL` environment
+variable if needed; do not put database credentials or ngrok tokens in frontend code.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Share through ngrok
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Use a production build for a public preview so development tools are not exposed:
 
-## Learn More
+```bash
+bun run build
+bun run start --hostname 127.0.0.1 --port 3000
+```
 
-To learn more about Next.js, take a look at the following resources:
+In a separate terminal with ngrok already authenticated:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+ngrok http http://127.0.0.1:3000 --inspect=false
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open the HTTPS URL printed by ngrok. Its free-plan interstitial may require
+clicking **Visit Site** once. This is a public, unauthenticated, read-only preview,
+not a production deployment. Keep the frontend, backend, Postgres, and tunnel
+running. Stop ngrok with Ctrl+C when finished; temporary URLs may change on restart.
 
-## Deploy on Vercel
+Only the frontend is tunneled. Browser requests go to `/api/football/...` on the
+same origin, which forwards an explicit allowlist of GET endpoints to FastAPI.
+There are no browser calls to localhost, exposed database credentials, arbitrary
+proxy destinations, API docs forwarding, or write methods. Fetches are uncached
+and backend timeouts return a readable error with retry.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The current preview runs as transient user services (not enabled at boot):
+`football-forecast-api`, `football-forecast-ui`, and `football-forecast-tunnel`.
+They remain running independently of the chat command session. To stop this preview:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+systemctl --user stop football-forecast-tunnel football-forecast-ui football-forecast-api
+```
+
+After editing UI code, rebuild and restart `football-forecast-ui`; for rapid local
+iteration, stop that service and use `bun run dev` instead. Keep public tunnels on
+the production build unless deliberately testing the development server.
+
+## First-version features
+
+- Real player search with debounce, canceled stale requests, keyboard selection,
+  loading, empty results, and failure states.
+- Season/week selection, player projection, matchup, and snapshot context.
+- Actual PPR bars and scrollable game logs through the selected week; reported DNF
+  notes appear when relevant. The blanket Unverified column has been removed.
+- Opponent context and per-position best-matchup rankings when published.
+- Scoring/methodology disclosure, timestamps, and mobile layout.
+- No fabricated forecasts: unpublished snapshots display unavailable/pending.
+
+Initial selection is the real Justin Jefferson record if found in the backend.
+Search to select another player. A previous early exit is not treated as next-week
+ineligibility. The API remains responsible for all forecast/scoring calculations.
+Completion reports are no longer a prerequisite for player averages: recorded
+appearances count except reported DNFs/DNPs. Unreported early exits may remain.
+Forecast inputs still exclude target-week outcomes; the inclusive game log is
+only a display of completed actuals, never a source for pregame predictions.
+
+## Verification
+
+```bash
+bun run lint
+bun run build
+```
+
+Browser checks covered real search and keyboard selection, eight-game history,
+week switching, pending rankings, desktop/mobile overflow, public proxy access,
+failed-request recovery with retry, and rejected non-allowlisted routes and write
+methods. These are smoke checks,
+not yet a checked-in automated end-to-end test suite.

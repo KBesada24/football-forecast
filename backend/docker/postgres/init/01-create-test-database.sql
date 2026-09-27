@@ -1,0 +1,1 @@
+CREATE DATABASE football_forecast_test;

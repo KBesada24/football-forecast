@@ -1,0 +1,117 @@
+mapping_version: "2"
+verified_at: "2026-09-19"
+nflreadpy_version: "0.1.5"
+audited_seasons: [2024, 2025, 2026]
+scoring_version: full_ppr_v1
+rules:
+  identity: stable_gsis_id_never_name
+  scope: RB_WR_TE_regular_season
+  duplicates: collapse_identical_reject_conflicting
+  required_stat_nulls: reject_never_fill_with_zero
+  optional_nulls: preserve_unknown
+  fumbles: source_total_only_all_units_never_add_components
+  schedule_timezone: America/New_York
+  completed_schedule: both_final_scores_present_and_kickoff_before_snapshot
+  unmatched_schedule: report_and_preserve_null_context
+  completion_status: unknown_until_evidence_reviewed
+references:
+  fumbles_and_source_scoring: https://github.com/nflverse/nflfastR/blob/master/R/calculate_stats.R
+  schedules: https://nflreadr.nflverse.com/articles/dictionary_schedules.html
+  snap_counts: https://nflreadr.nflverse.com/articles/dictionary_snap_counts.html
+  rosters: https://nflreadr.nflverse.com/articles/dictionary_rosters.html
+verification_tests:
+  - tests/test_source_adapter.py
+  - tests/test_scoring.py
+  - tests/test_schema_mapping.py
+
+datasets:
+  player_stats:
+    loader: load_player_stats
+    loader_arguments:
+      summary_level: week
+    fields:
+      season: {chosen_raw_field: season, raw_dtype: Int32, required: true}
+      week: {chosen_raw_field: week, raw_dtype: Int32, required: true}
+      game_type: {chosen_raw_field: season_type, raw_dtype: String, required: true}
+      game_id: {chosen_raw_field: game_id, raw_dtype: String, required: true}
+      player_id: {chosen_raw_field: player_id, raw_dtype: String, required: true}
+      player_name: {chosen_raw_field: player_display_name, raw_dtype: String, required: true}
+      position: {chosen_raw_field: position, raw_dtype: String, required: true}
+      team: {chosen_raw_field: team, raw_dtype: String, required: true}
+      opponent_team_source: {chosen_raw_field: opponent_team, raw_dtype: String, required: true}
+      headshot_url: {chosen_raw_field: headshot_url, raw_dtype: String, required: false}
+      passing_yards: {chosen_raw_field: passing_yards, raw_dtype: Int32, required: true}
+      passing_tds: {chosen_raw_field: passing_tds, raw_dtype: Int32, required: true}
+      interceptions: {chosen_raw_field: passing_interceptions, raw_dtype: Int32, required: true}
+      carries: {chosen_raw_field: carries, raw_dtype: Int32, required: true}
+      rushing_yards: {chosen_raw_field: rushing_yards, raw_dtype: Int32, required: true}
+      rushing_tds: {chosen_raw_field: rushing_tds, raw_dtype: Int32, required: true}
+      rushing_fumbles_lost: {chosen_raw_field: rushing_fumbles_lost, raw_dtype: Int32, required: true}
+      targets: {chosen_raw_field: targets, raw_dtype: Int32, required: true}
+      receptions: {chosen_raw_field: receptions, raw_dtype: Int32, required: true}
+      receiving_yards: {chosen_raw_field: receiving_yards, raw_dtype: Int32, required: true}
+      receiving_tds: {chosen_raw_field: receiving_tds, raw_dtype: Int32, required: true}
+      receiving_fumbles_lost: {chosen_raw_field: receiving_fumbles_lost, raw_dtype: Int32, required: true}
+      sack_fumbles_lost: {chosen_raw_field: sack_fumbles_lost, raw_dtype: Int32, required: true}
+      fumbles_lost_total: {chosen_raw_field: fumbles_lost_total, raw_dtype: Int32, required: true}
+      fantasy_points_ppr_source: {chosen_raw_field: fantasy_points_ppr, raw_dtype: Float64, required: true}
+      source_passing_two_points: {chosen_raw_field: passing_2pt_conversions, raw_dtype: Int32, required: false}
+      source_rushing_two_points: {chosen_raw_field: rushing_2pt_conversions, raw_dtype: Int32, required: false}
+      source_receiving_two_points: {chosen_raw_field: receiving_2pt_conversions, raw_dtype: Int32, required: false}
+      source_special_teams_tds: {chosen_raw_field: special_teams_tds, raw_dtype: Int32, required: false}
+
+  schedules:
+    loader: load_schedules
+    fields:
+      game_id: {chosen_raw_field: game_id, raw_dtype: String, required: true}
+      season: {chosen_raw_field: season, raw_dtype: Int32, required: true}
+      week: {chosen_raw_field: week, raw_dtype: Int32, required: true}
+      game_type: {chosen_raw_field: game_type, raw_dtype: String, required: true}
+      game_date: {chosen_raw_field: gameday, raw_dtype: String, required: true}
+      game_time: {chosen_raw_field: gametime, raw_dtype: String, required: true}
+      away_team: {chosen_raw_field: away_team, raw_dtype: String, required: true}
+      home_team: {chosen_raw_field: home_team, raw_dtype: String, required: true}
+      location: {chosen_raw_field: location, raw_dtype: String, required: true}
+      home_score: {chosen_raw_field: home_score, raw_dtype: Int32, required: true}
+      away_score: {chosen_raw_field: away_score, raw_dtype: Int32, required: true}
+      neutral_site: {chosen_raw_field: null, transformation: "location == 'Neutral'", required: false}
+      game_datetime: {chosen_raw_field: null, transformation: parse_game_date_and_time, required: false}
+      game_status: {chosen_raw_field: null, transformation: derive_from_schedule_context, required: false}
+
+  rosters:
+    loader: load_rosters_weekly
+    fields:
+      season: {chosen_raw_field: season, raw_dtype: Int32, required: true}
+      week: {chosen_raw_field: week, raw_dtype: Int32, required: true}
+      game_type: {chosen_raw_field: game_type, raw_dtype: String, required: true}
+      player_id: {chosen_raw_field: gsis_id, raw_dtype: String, required: true}
+      external_player_id: {chosen_raw_field: pfr_id, raw_dtype: String, required: true}
+      player_name: {chosen_raw_field: full_name, raw_dtype: String, required: true}
+      team: {chosen_raw_field: team, raw_dtype: String, required: true}
+      position: {chosen_raw_field: position, raw_dtype: String, required: true}
+      roster_status: {chosen_raw_field: status, raw_dtype: String, required: true}
+      headshot_url: {chosen_raw_field: headshot_url, raw_dtype: String, required: false}
+
+  snap_counts:
+    loader: load_snap_counts
+    fields:
+      game_id: {chosen_raw_field: game_id, raw_dtype: String, required: true}
+      season: {chosen_raw_field: season, raw_dtype: Int32, required: true}
+      week: {chosen_raw_field: week, raw_dtype: Int32, required: true}
+      game_type: {chosen_raw_field: game_type, raw_dtype: String, required: true}
+      external_player_id: {chosen_raw_field: pfr_player_id, raw_dtype: String, required: true}
+      player_name: {chosen_raw_field: player, raw_dtype: String, required: true}
+      team: {chosen_raw_field: team, raw_dtype: String, required: true}
+      position: {chosen_raw_field: position, raw_dtype: String, required: true}
+      offense_snaps: {chosen_raw_field: offense_snaps, raw_dtype: Float64, required: true}
+      defense_snaps: {chosen_raw_field: defense_snaps, raw_dtype: Float64, required: true}
+      special_teams_snaps: {chosen_raw_field: st_snaps, raw_dtype: Float64, required: true}
+
+  players:
+    loader: load_players
+    fields:
+      player_id: {chosen_raw_field: gsis_id, raw_dtype: String, required: true}
+      external_player_id: {chosen_raw_field: pfr_id, raw_dtype: String, required: true}
+      player_name: {chosen_raw_field: display_name, raw_dtype: String, required: true}
+      position: {chosen_raw_field: position, raw_dtype: String, required: true}
+      headshot_url: {chosen_raw_field: headshot, raw_dtype: String, required: false}
