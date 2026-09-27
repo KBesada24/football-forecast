@@ -1251,7 +1251,7 @@ No fallback should be enacted as an unannounced purchase or material architectur
 - [x] CodeRabbit CLI review completed and its findings resolved (September 27).
 - [ ] Opt-in workflow passes a cloud run; encrypted archives download/verify ✔ (run 36350171349); site shows exact snapshot (pending the first Tuesday publication).
 - [ ] Owner identity retained independently (**second copy still pending**; only `~/football-backup.agekey` exists). One cloud backup decrypted and restored successfully ✔ (September 27).
-- [ ] Tuesday workflow explicitly enabled; failure notifications confirmed.
+- [x] Tuesday workflow explicitly enabled by the owner (`ENABLE_WEEKLY_REFRESH=true`, September 27); first scheduled run Tuesday, September 29, 8:00 a.m. Eastern. Failure notifications still to be confirmed.
 - [ ] Participation/injury notice still visible.
 - [ ] Real phone/cellular check passed with local development services unavailable.
 - [ ] Owner received the stable URL and understands browser-local team storage.
@@ -1277,7 +1277,7 @@ Adopt individually when justified; none of these blocks the minimal launch.
 
 | Field | Value |
 | --- | --- |
-| Deployment status | **Deployed September 27, 2026** (database, API, website). Weekly workflow disabled pending the owner-key recovery check |
+| Deployment status | **Deployed September 27, 2026** (database, API, website). Weekly workflow enabled September 27 |
 | Owner / alert recipient | To be confirmed; no credentials here |
 | Frontend project and public URL | `football-forecast` (`prj_auSkLUoNY0kQkRoPsXzaQyRYGxX6`), root `football-forecast-ui`: <https://football-forecast-xi.vercel.app> |
 | Frontend deployment ID / commit | `dpl_7581M8LfP7TgE95Uvwia2rfbHYWu` / `875ca17`; Git integration deploys `main` |
