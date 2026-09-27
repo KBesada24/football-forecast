@@ -48,9 +48,10 @@ def test_backup_uses_libpq_env_and_verifies_readability(tmp_path, monkeypatch):
         archive_refresh, "encrypt", lambda source, dest, _: shutil.copyfile(source, dest)
     )
     archive_refresh.database_backup(tmp_path / "backup.age", "unused")
-    assert (
-        calls[0][1]["PGDATABASE"] == "postgresql://worker:secret@localhost/example?sslmode=require"
-    )
+    env = calls[0][1]
+    assert (env["PGHOST"], env["PGUSER"], env["PGPASSWORD"]) == ("localhost", "worker", "secret")
+    assert (env["PGDATABASE"], env["PGSSLMODE"]) == ("example", "require")
+    assert "None" not in env.values()
     assert "--schema=public" in calls[0][0]
     assert calls[1][0][:2] == ["pg_restore", "--list"]
 

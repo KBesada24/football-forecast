@@ -93,13 +93,20 @@ def replay_bundle(result: dict, destination: Path, recipient: str) -> None:
 
 
 def database_backup(destination: Path, recipient: str) -> None:
-    url = make_url(get_settings().database_url).set(drivername="postgresql")
-    # libpq accepts a URI via PGDATABASE. The password is never a command-line argument.
-    env = {
-        **os.environ,
-        "PGDATABASE": url.render_as_string(hide_password=False),
-        "PGCONNECT_TIMEOUT": "15",
+    url = make_url(get_settings().database_url)
+    # libpq does not expand a URI placed in PGDATABASE, so pass each part separately.
+    # The password is never a command-line argument.
+    parts = {
+        "PGHOST": url.host,
+        "PGPORT": str(url.port) if url.port else None,
+        "PGUSER": url.username,
+        "PGPASSWORD": url.password,
+        "PGDATABASE": url.database,
+        "PGSSLMODE": url.query.get("sslmode"),
+        "PGSSLROOTCERT": url.query.get("sslrootcert"),
     }
+    env = {**os.environ, "PGCONNECT_TIMEOUT": "15"}
+    env.update({name: str(value) for name, value in parts.items() if value})
     with tempfile.TemporaryDirectory(prefix="football-backup-") as temp:
         dump = Path(temp) / "database.dump"
         # Application tables live in public; Supabase-managed schemas are not ours to restore.
